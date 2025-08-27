@@ -13,7 +13,7 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 
 ## Screenshots
 
-- **Homepage**: Clean search interface with KrakenPlay logo
+- **Homepage**: Clean search interface with GoodKraken logo
 
 - **Search Results**: Grid layout showing movie/TV series posters with titles and years
 
@@ -42,7 +42,7 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd krakenplay-streaming
+   cd goodkraken-app
    ```
 
 2. **Install dependencies**
@@ -78,7 +78,7 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd krakenplay-streaming
+   cd goodkraken-app
    ```
 
 2. **Get TMDB API Key**

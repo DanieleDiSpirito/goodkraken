@@ -39,7 +39,7 @@ export default function HomePage() {
       <div className="mb-12">
         <Image
           src="/goodkraken_logo.jpg"
-          alt="KrakenPlay"
+          alt="GoodKraken"
           width={400}
           height={300}
           className="w-auto h-48 md:h-64"

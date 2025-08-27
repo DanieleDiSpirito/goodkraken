@@ -8,7 +8,7 @@ export function useLanguage() {
 
   // Load language from localStorage on mount
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("krakenplay-language")
+    const savedLanguage = localStorage.getItem("goodkraken-language")
     if (savedLanguage && ["it", "en", "es", "fr", "de"].includes(savedLanguage)) {
       setLanguageState(savedLanguage as Language)
     }
@@ -17,7 +17,7 @@ export function useLanguage() {
   // Save language to localStorage when it changes
   const setLanguage = (newLanguage: Language) => {
     setLanguageState(newLanguage)
-    localStorage.setItem("krakenplay-language", newLanguage)
+    localStorage.setItem("goodkraken-language", newLanguage)
   }
 
   return { language, setLanguage }

@@ -4,7 +4,7 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'KrakenPlay',
+  title: 'GoodKraken',
   description: 'Discover and Stream Movies and TV Shows',
   generator: 'v0.app',
 }
