@@ -39,7 +39,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     }
 
     const data = await response.json()
-    console.log(`[v0] TV show details fetched successfully for: ${data.title}`)
+    console.log(`[v0] TV show details fetched successfully for: ${data.name}`)
 
     const providersResponse = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/watch/providers`, {
       headers: {

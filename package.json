@@ -1,7 +1,8 @@
 {
-  "name": "my-v0-project",
-  "version": "0.1.0",
+  "name": "goodkraken-app",
+  "version": "1.0.0",
   "private": true,
+  "description": "GoodKraken - Netflix-like movie/TV series seeking application",
   "scripts": {
     "build": "next build",
     "dev": "next dev",

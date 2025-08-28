@@ -2,6 +2,8 @@
 
 A Netflix-like movie/TV shows provider seeking application for movies and TV series built with Next.js, featuring a sleek dark interface and multi-language support.
 
+Click here to use it 👉 [https://goodkraken.vercel.app/](https://goodkraken.vercel.app/)
+
 ## Features
 
 - **Movie & TV Series Search**: Search through thousands of movies and TV shows using TMDB API
