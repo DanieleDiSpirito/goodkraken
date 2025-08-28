@@ -35,8 +35,6 @@ export default function MovieDetailsPage() {
   const [movie, setMovie] = useState<MovieDetails | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [showPlayer, setShowPlayer] = useState(false)
-  const [streamingUrl, setStreamingUrl] = useState("")
 
   useEffect(() => {
   const fetchMovieDetails = async () => {
@@ -46,8 +44,7 @@ export default function MovieDetailsPage() {
     setError("")
 
     try {
-      const apiLangCode = getApiLanguageCode(language) // 👈 come in search
-      const response = await fetch(`/api/movie/${movieId}?lang=${apiLangCode}`)
+      const response = await fetch(`/api/movie/${movieId}?lang=${languageReq}`)
 
       if (!response.ok) {
         if (response.status !== 429) {

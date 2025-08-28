@@ -2,8 +2,8 @@ import { type NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const { id } = params
-    const { searchParams } = new URL(request.url)
+    const movieId = params.id
+    const searchParams = request.nextUrl.searchParams
     const language = searchParams.get("lang") || "it-IT"
 
     const tmdbApiKey = process.env.TMDB_API_KEY
@@ -11,9 +11,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: "TMDB API token not configured" }, { status: 500 })
     }
 
-    console.log(`[v0] Fetching movie details for ID: ${id}, language: ${language}`)
+    console.log(`[v0] Fetching movie details for ID: ${movieId}, language: ${language}`)
 
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=${language}`, {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=${language}`, {
       headers: {
         Authorization: `Bearer ${tmdbApiKey}`,
         accept: "application/json",
