@@ -11,6 +11,7 @@ export const providers_link = {
   'Amazon Prime Video Free with Ads': "https://www.primevideo.com/",
   'Amazon Prime Video with Ads': "https://www.primevideo.com/",
   'Amazon Video': "https://www.primevideo.com/",
+  'Amazon Prime': "https://www.primevideo.com/",
   'Apple TV': "https://tv.apple.com/",
   'AroVision Aotearoa': "https://arovision.nz/",
   'Arrow Video Amazon Channel': "https://www.primevideo.com/",

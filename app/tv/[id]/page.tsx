@@ -11,6 +11,9 @@ import { LanguageSelector, getApiLanguageCode } from "@/components/language-sele
 import { getTranslation } from "@/lib/translations"
 import { useLanguage } from "@/hooks/use-language"
 import type { Language } from "@/lib/translations"
+import { providers_link } from "@/lib/providers"
+import { ProviderLink } from "@/lib/providers"
+
 
 interface TVSeriesDetails {
   id: number
@@ -26,6 +29,25 @@ interface TVSeriesDetails {
   number_of_episodes: number
   genres: { id: number; name: string }[]
   seasons: { id: number; season_number: number; name: string; episode_count: number }[]
+  providers?: {
+    ads?: Provider[]
+    flatrate?: Provider[]
+    rent?: Provider[]
+    buy?: Provider[]
+  }
+  externalLinks?: ExternalLink[]
+}
+
+interface Provider {
+  provider_id: number
+  provider_name: ProviderLink
+  logo_path: string
+}
+
+interface ExternalLink {
+  provider: ProviderLink
+  url: string
+  type?: string
 }
 
 interface Episode {
@@ -53,8 +75,6 @@ export default function TVSeriesDetailsPage() {
   const [tvSeries, setTVSeries] = useState<TVSeriesDetails | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [showPlayer, setShowPlayer] = useState(false)
-  const [streamingUrl, setStreamingUrl] = useState("")
   const [selectedSeason, setSelectedSeason] = useState<string>("")
   const [selectedEpisode, setSelectedEpisode] = useState<string>("")
   const [seasonDetails, setSeasonDetails] = useState<SeasonDetails | null>(null)
@@ -149,6 +169,50 @@ export default function TVSeriesDetailsPage() {
     }
 
     return stars
+  }
+
+  const renderProviders = (providers?: Provider[], externalLinks?: ExternalLink[], type?: string) => {
+    if (!providers?.length) return null
+    const href_dict: Record<string, string> = {}
+    providers.map((p) => {
+      const external = externalLinks?.find((e) => e.provider.replace('Amazon Prime', 'Amazon Video') === p.provider_name)
+      const href = external?.url || "#"
+      if (href !== "#") {
+        href_dict[p.provider_name] = href
+      }
+    })
+    return (
+      <div>
+        <h3 className="text-lg font-semibold mb-2">{type}</h3>
+        <div className="flex flex-wrap gap-3">
+          {providers.map((p) => {
+            let href = href_dict[p.provider_name] || "#"
+            if (href === "#") return (
+              <div key={p.provider_id} className="opacity-50 cursor-not-allowed">
+                <Image
+                  src={`https://image.tmdb.org/t/p/w92${p.logo_path}`}
+                  alt={p.provider_name}
+                  width={50}
+                  height={50}
+                  className="rounded-lg bg-gray-800 p-1"
+                />
+              </div>
+            )
+            return (
+              <a key={p.provider_id} href={href} target="_blank" rel="noopener noreferrer">
+                <Image
+                  src={`https://image.tmdb.org/t/p/w92${p.logo_path}`}
+                  alt={p.provider_name}
+                  width={50}
+                  height={50}
+                  className="rounded-lg bg-gray-800 p-1 hover:scale-110 transition"
+                />
+              </a>
+            )
+          })}
+        </div>
+      </div>
+    )
   }
 
   if (loading) {
@@ -294,6 +358,15 @@ export default function TVSeriesDetailsPage() {
                         {genre.name}
                       </span>
                     ))}
+                  </div>
+                )}
+
+                {tvSeries.providers && (
+                  <div className="space-y-4">
+                    {renderProviders(tvSeries.providers.ads, tvSeries.externalLinks, getTranslation(language, "freeWithAds"))}
+                    {renderProviders(tvSeries.providers.flatrate, tvSeries.externalLinks, getTranslation(language, "includedWithSubscription"))}
+                    {renderProviders(tvSeries.providers.rent, tvSeries.externalLinks, getTranslation(language, "rent"))}
+                    {renderProviders(tvSeries.providers.buy, tvSeries.externalLinks, getTranslation(language, "buy"))}
                   </div>
                 )}
 

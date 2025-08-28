@@ -5,6 +5,7 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 ## Features
 
 - **Movie & TV Series Search**: Search through thousands of movies and TV shows using TMDB API
+- **Show Platforms Link**: Every platform for region showed with link to reach directly the film
 - **Multi-language Support**: Available in Italian, English, Spanish, French, and German with flag indicators
 - **Responsive Design**: Optimized for desktop and mobile devices
 - **Season & Episode Selection**: For TV series, choose specific seasons and episodes
@@ -15,11 +16,19 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 
 - **Homepage**: Clean search interface with GoodKraken logo
 
+![Homepage](./screenshoots/homepage.png)
+
 - **Search Results**: Grid layout showing movie/TV series posters with titles and years
+
+![Search Results](./screenshoots/search_results.png)
 
 - **Movie Details**: Detailed view with poster, description and ratings
 
+![Movie Details](./screenshoots/movie_details.png)
+
 - **TV Series Details**: Season and episode selection
+
+![TV Series Details](./screenshoots/tv_series_details.png)
 
 
 ## Tech Stack
@@ -36,6 +45,7 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 - Node.js 18+ 
 - npm or yarn
 - TMDB API key (free registration at [themoviedb.org](https://www.themoviedb.org/))
+- RapidApi key [*OPTIONAL*]
 
 ## Installation (no Docker)
 
@@ -55,8 +65,13 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 3. **Environment Setup**
    
    Create a `.env.local` file in the root directory:
-   ```env
-   TMDB_API_KEY=your_tmdb_bearer_token_here
+   ```py
+   # [ESSENTIAL] TMDb API Key - Get it from https://www.themoviedb.org/settings/api
+   TMDB_API_KEY=<your_tmdb_api_key>
+   # [OPTIONAL] RapidAPI Key for Links - Get it sign in from https://rapidapi.com/auth/login
+   RAPIDAPI_KEY=<your_rapidapi_key>
+   # [OPTIONAL] Ngrok Auth Token for tunneling - Get it from https://dashboard.ngrok.com/get-started/your-authtoken
+   NGROK_AUTH_TOKEN=<your_ngrok_token>
    ```
    
    To get your TMDB API token:
@@ -78,7 +93,7 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd goodkraken-app
+   cd goodkraken
    ```
 
 2. **Get TMDB API Key**
@@ -136,11 +151,13 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 ### Movie Experience
 - Click on any movie poster to view details
 - See poster, title, description, ratings with star system
+- Select the available platform (Netflix, Pluto, APV, Disney+, MUBI...) you want to use to see the movie
 
 ### TV Series Experience
 - Select TV series from search results
 - Choose season from dropdown menu
 - Select specific episode
+- Select the available platform (Netflix, Pluto, APV, Disney+, MUBI...) you want to use to see the tv show
 
 ### Language Support
 - Interface supports 5 languages: Italian, English, Spanish, French, German
@@ -150,7 +167,7 @@ A Netflix-like movie/TV shows provider seeking application for movies and TV ser
 ## Project Structure
 
 ```
-goodkraken-app/
+goodkraken/
 ├── app
 │   ├── api
 │   │   ├── movie
@@ -199,9 +216,6 @@ goodkraken-app/
 - `GET /tv/{id}` - TV series details
 - `GET /tv/{id}/season/{season}` - Season details with episodes
 
-### Streaming Integration
-- Movies: `https://vixsrc.to/movie/{tmdb_id}`
-- TV Series: `https://vixsrc.to/tv/{tmdb_id}/{season}/{episode}`
 
 ## Contributing
 

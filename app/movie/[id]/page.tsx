@@ -10,6 +10,8 @@ import { LanguageSelector, getApiLanguageCode } from "@/components/language-sele
 import { getTranslation } from "@/lib/translations"
 import { useLanguage } from "@/hooks/use-language"
 import type { Language } from "@/lib/translations"
+import { providers_link } from "@/lib/providers"
+import { ProviderLink } from "@/lib/providers"
 
 
 interface MovieDetails {
@@ -23,7 +25,27 @@ interface MovieDetails {
   vote_count: number
   runtime: number
   genres: { id: number; name: string }[]
+  providers?: {
+    ads?: Provider[]
+    flatrate?: Provider[]
+    rent?: Provider[]
+    buy?: Provider[]
+  }
+  externalLinks?: ExternalLink[]
 }
+
+interface Provider {
+  provider_id: number
+  provider_name: ProviderLink
+  logo_path: string
+}
+
+interface ExternalLink {
+  provider: ProviderLink
+  url: string
+  type?: string
+}
+
 
 export default function MovieDetailsPage() {
   const params = useParams()
@@ -107,6 +129,50 @@ export default function MovieDetailsPage() {
     }
 
     return stars
+  }
+
+  const renderProviders = (providers?: Provider[], externalLinks?: ExternalLink[], type?: string) => {
+    if (!providers?.length) return null
+    const href_dict: Record<string, string> = {}
+    providers.map((p) => {
+      const external = externalLinks?.find((e) => e.provider.replace('Amazon Prime', 'Amazon Video') === p.provider_name)
+      const href = external?.url || "#"
+      if (href !== "#") {
+        href_dict[p.provider_name] = href
+      }
+    })
+    return (
+      <div>
+        <h3 className="text-lg font-semibold mb-2">{type}</h3>
+        <div className="flex flex-wrap gap-3">
+          {providers.map((p) => {
+            let href = href_dict[p.provider_name] || "#"
+            if (href === "#") return (
+              <div key={p.provider_id} className="opacity-50 cursor-not-allowed">
+                <Image
+                  src={`https://image.tmdb.org/t/p/w92${p.logo_path}`}
+                  alt={p.provider_name}
+                  width={50}
+                  height={50}
+                  className="rounded-lg bg-gray-800 p-1"
+                />
+              </div>
+            )
+            return (
+              <a key={p.provider_id} href={href} target="_blank" rel="noopener noreferrer">
+                <Image
+                  src={`https://image.tmdb.org/t/p/w92${p.logo_path}`}
+                  alt={p.provider_name}
+                  width={50}
+                  height={50}
+                  className="rounded-lg bg-gray-800 p-1 hover:scale-110 transition"
+                />
+              </a>
+            )
+          })}
+        </div>
+      </div>
+    )
   }
 
   if (loading) {
@@ -205,6 +271,13 @@ export default function MovieDetailsPage() {
                     {getTranslation(language, "duration")}: {Math.floor(movie.runtime / 60)}h {movie.runtime % 60}m
                   </p>
                 )}
+
+                <div className="mt-6 space-y-6">
+                  {renderProviders(movie.providers?.ads, movie.externalLinks, getTranslation(language, "freeWithAds"))}
+                  {renderProviders(movie.providers?.flatrate, movie.externalLinks, getTranslation(language, "includedWithSubscription"))}
+                  {renderProviders(movie.providers?.rent, movie.externalLinks, getTranslation(language, "rent"))}
+                  {renderProviders(movie.providers?.buy, movie.externalLinks, getTranslation(language, "buy"))}
+                </div>
 
                 <div>
                   <h2 className="text-2xl font-semibold mb-3">{getTranslation(language, "overview")}</h2>
